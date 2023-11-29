@@ -10,7 +10,7 @@ services:
     networks:
       - backend
     ports:
-      - "5432:5432"               # База данных будет подниматься на порту 5431, лучше это не трогайте
+      - "5432:5433"
     volumes:
       - database-pg:/var/lib/postgresql/data
   

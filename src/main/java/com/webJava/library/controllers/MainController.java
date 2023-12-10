@@ -26,11 +26,7 @@ public class MainController {
         return "catalog";
     }
 
-    @GetMapping("/profile")
-    public String profile(Model model) {
-        model.addAttribute("title", "Профиль");
-        return "profile";
-    }
+
 
     @GetMapping("/regist")
     public String regist(Model model) {

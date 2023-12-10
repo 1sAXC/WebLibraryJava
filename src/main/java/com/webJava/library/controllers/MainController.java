@@ -25,9 +25,7 @@ public class MainController {
         model.addAttribute("title", "Каталог книг");
         return "catalog";
     }
-
-
-
+    
     @GetMapping("/regist")
     public String regist(Model model) {
         model.addAttribute("title", "Регистрация");

@@ -13,5 +13,22 @@ public class MainController {
         model.addAttribute("title", "Главная страница");
         return "home";
     }
+    @GetMapping("/about")
+    public String about(Model model) {
+        model.addAttribute("title", "О нас");
+        return "about";
+    }
+
+    @GetMapping("/catalog")
+    public String catalog(Model model) {
+        model.addAttribute("title", "Каталог книг");
+        return "catalog";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        model.addAttribute("title", "Профиль");
+        return "profile";
+    }
 
 }

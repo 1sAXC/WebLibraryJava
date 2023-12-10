@@ -38,9 +38,17 @@ public class AuthController {
      * @return код ответа и идентификатор зарегистрированного пользователя
      */
     @PostMapping("/regist")
-    public ResponseEntity<Integer> register(@Valid @ModelAttribute RegisterRequest request) throws IOException {
-        authService.register(request);
-        return ResponseEntity.ok().header("redirect", "/login").body(0);
+    public String register(@Valid @ModelAttribute RegisterRequest request, HttpServletResponse response, Model model) throws IOException {
+        var register = authService.register(request);
+
+        var res = authService.login(new LoginRequest(request.getUsername(), request.getPassword()));
+
+        var cookie = new Cookie("AccessToken", res.getAccessToken());
+        response.addCookie(cookie);
+
+        return profile(res.getAccessToken(), model);
+        //
+        // return ResponseEntity.ok().header("redirect", "/login").body(0);
     }
 
     /**

@@ -98,7 +98,7 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(book);
     }
 
-    private GetBookResponse mapToResponse(Book book) {
+    public GetBookResponse mapToResponse(Book book) {
         return new GetBookResponse(book.getId(), book.getTitle(), book.getAuthor(), book.getAnnotation());
     }
 }

@@ -10,10 +10,9 @@ services:
     networks:
       - backend
     ports:
-      - "5432:5433"
+      - "5433:5432"
     volumes:
       - database-pg:/var/lib/postgresql/data
-  
 networks:
   backend:
     driver: bridge

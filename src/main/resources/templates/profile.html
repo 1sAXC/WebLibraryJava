@@ -17,6 +17,20 @@
     </nav>
 </header>
 
-<h1>Добро пожаловать:</h1><a th:text="${username}"></a>
+<div class="profile-container">
+    <h1>Добро пожаловать: <span th:text="${username}"></span></h1>
+
+    <!-- Дополнительные элементы профиля -->
+    <div class="user-info">
+        <!-- Другая информация о пользователе -->
+    </div>
+
+    <!-- Кнопка для изменения пароля -->
+    <button class="password-button">Изменить пароль</button>
+
+    <!-- Кнопка для выхода -->
+    <button class="logout-button">Выход</button>
+</div>
+
 </body>
 </html>

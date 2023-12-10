@@ -45,22 +45,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
 
-    /**
-     * Регистрирует нового пользователя.
-     *
-     * @param request объект запроса на регистрацию
-     * @return идентификатор зарегистрированного пользователя
-     */
     @Override
     @Transactional
     public int register(RegisterRequest request) throws IOException {
         if (userRepository.existsByUsername(request.getUsername()))
             throw new EntityAlreadyExistsException("Username is taken");
 
-        var role = roleRepository.findByName("USER").orElseThrow(() -> new EntityNotFoundException("Role not found"));
+        var role = roleRepository.findByName("default").orElseThrow(() -> new EntityNotFoundException("Role not found"));
         var avatar = request.getAvatar();
         var image = new Image(avatar.getOriginalFilename(), avatar.getContentType(), imageUtils.compress(avatar.getBytes()));
-        var user = new UserEntity(role, image, request.getUsername(), passwordEncoder.encode(request.getPassword()),
+        var user = new User(role, image, request.getUsername(), passwordEncoder.encode(request.getPassword()),
                 request.getFirstName(), request.getLastName());
 
         var newUser = userRepository.save(user);
@@ -68,12 +62,6 @@ public class AuthServiceImpl implements AuthService {
         return newUser.getId();
     }
 
-    /**
-     * Аутентифицирует пользователя.
-     *
-     * @param request объект запроса на аутентификацию
-     * @return информацию об аутентифицированном пользователе
-     */
     @Override
     public LoginResponse login(LoginRequest request) {
         var auth = authenticationManager.authenticate(

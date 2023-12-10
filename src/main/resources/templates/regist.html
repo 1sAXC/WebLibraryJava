@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Регистрация</h2>
+    <form action="/register" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="username">Логин:</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="firstName">Имя:</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Фамилия:</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" required>
+        </div>
+        <div class="form-group">
+            <label for="avatar">Фото профиля (только PNG):</label>
+            <input type="file" class="form-control-file" id="avatar" name="avatar" accept="image/png">
+        </div>
+        <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
+    </form>
+</div>
+
+</body>
+</html>

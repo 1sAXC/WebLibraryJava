@@ -31,4 +31,16 @@ public class MainController {
         return "profile";
     }
 
+    @GetMapping("/regist")
+    public String regist(Model model) {
+        model.addAttribute("title", "Регистрация");
+        return "regist";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("title", "Регистрация");
+        return "login";
+    }
+
 }

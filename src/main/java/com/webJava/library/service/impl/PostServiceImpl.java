@@ -113,9 +113,6 @@ public class PostServiceImpl implements PostService {
         var user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
         var post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post not found"));
 
-        if (user.getId() != post.getUser().getId())
-            throw new ValidationException("You must be the owner of the post");
-
         imageRepository.delete(post.getImage());
 
         var imageDb = new Image(image.getOriginalFilename(), image.getContentType(), imageUtils.compress(image.getBytes()));

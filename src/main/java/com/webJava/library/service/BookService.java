@@ -12,7 +12,7 @@ public interface BookService {
 
     PageDto<GetBookResponse> getAll(int pageNumber, int pageSize);
 
-    PageDto<GetBookResponse> getAllByUserId(int pageNumber, int pageSize, int userId);
+    byte[] getBookImage(int bookId);
 
     void delete(int id);
 }

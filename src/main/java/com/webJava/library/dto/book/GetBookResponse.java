@@ -9,8 +9,6 @@ import java.util.Date;
 public class GetBookResponse {
     private int id;
 
-    private int userId;
-
     private String title;
 
     private String author;

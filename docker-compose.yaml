@@ -13,7 +13,6 @@ services:
       - "5433:5432"
     volumes:
       - database-pg:/var/lib/postgresql/data
-  
 networks:
   backend:
     driver: bridge

@@ -27,6 +27,7 @@ public class Image {
     @Lob
     @Column(length = 1000)
     private byte[] data;
+
     public Image(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;

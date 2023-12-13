@@ -226,6 +226,17 @@ public class UserServiceImpl implements UserService {
         return pageBookDtoMaker.makePageDto(page, this::mapBookToResponse);
     }
 
+    @Override
+    public int getUserByName(String username) {
+        return userRepository.findAllByUsername(username);
+    }
+
+    @Override
+    public void AddBook(int userId, int bookId) {
+        userRepository.getById(userId).getBooks().add(bookRepository.getById(bookId));
+        userRepository.save(userRepository.getById(userId));
+    }
+
     /**
      * Удаляет пользователя по указанному идентификатору.
      *

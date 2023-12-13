@@ -30,13 +30,13 @@
         <tr th:each="book : ${books}">
             <td th:text="${book.getTitle()}"></td>
             <td th:text="${book.getAuthor()}"></td>
-            <td th:text="${book.getAnnotation()}"></td>
+            <!--<td th:text="${book.getAnnotation()}"></td>-->
             <td>
-                <!-- Использование base64-кодирования массива байтов изображения -->
                 <img th:src="@{'/' + ${book.getId()} + '/image'}"
                      style="max-width: 100px; max-height: 150px;" />
             </td>
             <td><a th:text="Открыть" th:href="@{'/book/' + ${book.getId()}}"></a></td>
+            <button onclick="addUserToBook(${book.id})">Добавить</button>
         </tr>
         </tbody>
     </table>

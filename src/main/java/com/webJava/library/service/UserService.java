@@ -30,5 +30,9 @@ public interface UserService {
     GetUserResponse changeAvatar(MultipartFile avatar) throws IOException;
 
     PageDto<GetBookResponse> getAllBooks(int pageNumber, int pageSize, int userId);
+
+    int getUserByName(String username);
+
+    void AddBook(int userId, int bookId);
     void delete(int id);
 }

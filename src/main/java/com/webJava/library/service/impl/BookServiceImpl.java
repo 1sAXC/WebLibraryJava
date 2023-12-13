@@ -86,6 +86,11 @@ public class BookServiceImpl implements BookService {
         return pageDtoMaker.makePageDto(page, this::mapToResponse);
     }
 
+    @Override
+    public void AddUser(int userId, int bookId) {
+        bookRepository.getById(bookId).getUsers().add(userRepository.getById(userId));
+        bookRepository.save(bookRepository.getById(bookId));
+    }
 
     @Override
     public void delete(int id) {

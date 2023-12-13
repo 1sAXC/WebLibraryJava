@@ -43,11 +43,8 @@ public class CatalogController {
         return "book";
     }
 
-    // Метод для имитации получения списка книг (замените его на ваш реальный метод)
     private List<GetBookResponse> retrieveBookList() {
-        // Здесь можно создать и вернуть список книг
         var books = this.bookService.getAll(0, 10).getContent();
-        // Добавьте больше книг при необходимости
         return books;
     }
 }

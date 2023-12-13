@@ -30,6 +30,7 @@ import com.webJava.library.repository.UserRepository;
 import com.webJava.library.service.UserService;
 
 import java.io.IOException;
+import java.util.Base64;
 
 /**
  * Класс сервиса пользователей.

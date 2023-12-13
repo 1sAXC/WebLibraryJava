@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Загрузить книги</h2>
+    <form action="/book-upload" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="author">Введите автора книги:</label>
+            <input type="text" class="form-control" id="author" name="author" required>
+        </div>
+        <div class="form-group">
+            <label for="title">Введите название книги:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="annotation">Введите аннотацию книги:</label>
+            <input type="text" class="form-control" id="annotation" name="annotation" required>
+        <div class="form-group">
+            <label for="image">Обложка (только PNG):</label>
+            <input type="file" class="form-control-file" id="image" name="image" accept="image/png">
+        </div>
+        <button type="submit" class="btn btn-primary">Создать книгу</button>
+    </form>
+</div>
+
+</body>
+</html>

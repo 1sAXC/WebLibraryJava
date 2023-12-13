@@ -14,11 +14,7 @@ public class CreateBookRequest {
     private String author;
 
     @NotBlank
-    private String content;
-
-    @NotBlank
     private String annotation;
 
-    @NotBlank
     private MultipartFile image;
 }

@@ -1,5 +1,6 @@
 package com.webJava.library.controllers;
 
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.ui.Model;
 import com.webJava.library.security.JwtGenerator;
 import jakarta.servlet.http.Cookie;
@@ -16,6 +17,7 @@ import com.webJava.library.dto.auth.RegisterRequest;
 import com.webJava.library.service.AuthService;
 
 import java.io.IOException;
+import java.text.AttributedString;
 
 /**
  * Контроллер аутентификации и регистрации пользователей.
@@ -24,6 +26,7 @@ import java.io.IOException;
 public class AuthController {
     private final AuthService authService;
     private final JwtGenerator jwt;
+    private AttributedString redirectAttributes;
 
     @Autowired
     public AuthController(AuthService authService, JwtGenerator jwt) {
@@ -59,11 +62,17 @@ public class AuthController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String login(@Valid LoginRequest request, HttpServletResponse response, Model model) {
-        var res= authService.login(request);
+        try{
+            var res= authService.login(request);
 
-        var cookie = new Cookie("AccessToken", res.getAccessToken());
-        response.addCookie(cookie);
-        return profile(res.getAccessToken(), model);
+            var cookie = new Cookie("AccessToken", res.getAccessToken());
+            response.addCookie(cookie);
+            return profile(res.getAccessToken(), model);
+        }
+        catch(AuthenticationException e) {
+            return "redirect:/login?error";
+        }
+
     }
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public String profile(@CookieValue("AccessToken") String token, Model model) {

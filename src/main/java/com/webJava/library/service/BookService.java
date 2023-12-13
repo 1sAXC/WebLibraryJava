@@ -3,6 +3,9 @@ package com.webJava.library.service;
 import com.webJava.library.dto.book.CreateBookRequest;
 import com.webJava.library.dto.book.GetBookResponse;
 import com.webJava.library.dto.PageDto;
+import com.webJava.library.dto.user.GetUserResponse;
+import com.webJava.library.models.Book;
+import com.webJava.library.models.User;
 
 import java.io.IOException;
 public interface BookService {
@@ -13,6 +16,8 @@ public interface BookService {
     PageDto<GetBookResponse> getAll(int pageNumber, int pageSize);
 
     byte[] getBookImage(int bookId);
+
+    GetBookResponse mapToResponse(Book book);
 
     void delete(int id);
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Каталог</title>
+  <link rel="stylesheet" href="css/styleHome.css">
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="/">Главная</a></li>
+      <li><a href="catalog">Каталог книг</a></li>
+      <li><a href="about">О нас</a></li>
+      <li><a href="profile">Профиль</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <table>
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Использование Thymeleaf для отображения списка книг -->
+    <tr>
+      <td th:text="${book.getTitle()}"></td>
+      <td th:text="${book.getAuthor()}"></td>
+      <td th:text="${book.getAnnotation()}"></td>
+      <td>
+        <!-- Использование base64-кодирования массива байтов изображения -->
+        <img th:src="@{'/' + ${book.getId()} + '/image'}"
+             style="max-width: 100px; max-height: 150px;" />
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

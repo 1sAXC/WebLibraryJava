@@ -23,6 +23,7 @@ import com.webJava.library.repository.UserRepository;
 import com.webJava.library.service.BookService;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -45,10 +46,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public int create(CreateBookRequest request) throws IOException {
-        var username = authFacade.getAuth().getName();
+        /*var username = authFacade.getAuth().getName();
         var user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
         if (user.getRole().getName().equals("default"))
-            throw new AccessDeniedException("Access Denied");
+            throw new AccessDeniedException("Access Denied");*/
         var file = request.getImage();
         var image = new Image(file.getOriginalFilename(), file.getContentType(), imageUtils.compress(file.getBytes()));
         var post = new Book(image, request.getTitle(), request.getAuthor(), request.getAnnotation());
@@ -98,7 +99,7 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(book);
     }
 
-    private GetBookResponse mapToResponse(Book book) {
+    public GetBookResponse mapToResponse(Book book) {
         return new GetBookResponse(book.getId(), book.getTitle(), book.getAuthor(), book.getAnnotation());
     }
 }

@@ -19,19 +19,7 @@ public class MainController {
         model.addAttribute("title", "О нас");
         return "about";
     }
-
-    @GetMapping("/catalog")
-    public String catalog(Model model) {
-        model.addAttribute("title", "Каталог книг");
-        return "catalog";
-    }
-
-    @GetMapping("/profile")
-    public String profile(Model model) {
-        model.addAttribute("title", "Профиль");
-        return "profile";
-    }
-
+    
     @GetMapping("/regist")
     public String regist(Model model) {
         model.addAttribute("title", "Регистрация");

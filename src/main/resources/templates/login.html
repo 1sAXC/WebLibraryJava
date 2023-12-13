@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!--<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="../scripts/jsonFormat.js"></script>-->
 </head>
 <body>
 
 <div class="container mt-5">
+    <div th:if="${param.error}" class="alert alert-danger">
+        Неверный логин или пароль
+    </div>
     <h2>Login</h2>
     <form action="/login" method="post">
         <div class="form-group">

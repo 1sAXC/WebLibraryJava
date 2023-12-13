@@ -20,15 +20,13 @@
 <div class="profile-container">
     <h1>Добро пожаловать: <span th:text="${username}"></span></h1>
 
-    <!-- Дополнительные элементы профиля -->
     <div class="user-info">
-        <!-- Другая информация о пользователе -->
     </div>
 
-    <!-- Кнопка для изменения пароля -->
-    <button class="password-button">Изменить пароль</button>
+    <div class="admin-panel" th:if="${role == 2 or role == 3}">
+        <a type="submit" href="book-upload" class="btn btn-link">Добавить книгу</a>
+    </div>
 
-    <!-- Кнопка для выхода -->
     <button class="logout-button">Выход</button>
 </div>
 

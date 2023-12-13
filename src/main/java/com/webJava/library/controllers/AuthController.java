@@ -1,5 +1,8 @@
 package com.webJava.library.controllers;
 
+import com.webJava.library.models.User;
+import com.webJava.library.repository.UserRepository;
+import com.webJava.library.service.UserService;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.ui.Model;
 import com.webJava.library.security.JwtGenerator;
@@ -25,13 +28,16 @@ import java.text.AttributedString;
 @Controller
 public class AuthController {
     private final AuthService authService;
+
+    private final UserService userService;
     private final JwtGenerator jwt;
     private AttributedString redirectAttributes;
 
     @Autowired
-    public AuthController(AuthService authService, JwtGenerator jwt) {
+    public AuthController(AuthService authService, JwtGenerator jwt, UserService userService) {
         this.authService = authService;
         this.jwt = jwt;
+        this.userService = userService;
     }
 
     /**
@@ -77,7 +83,9 @@ public class AuthController {
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public String profile(@CookieValue("AccessToken") String token, Model model) {
         var username = jwt.getUsernameFromJwt(token);
+        var user = userService.getUserByName(username);
         model.addAttribute("username", username);
+        model.addAttribute("role", user.getRoleId());
         return "profile";
     }
 

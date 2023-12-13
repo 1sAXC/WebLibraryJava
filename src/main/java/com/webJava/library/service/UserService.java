@@ -31,7 +31,7 @@ public interface UserService {
 
     PageDto<GetBookResponse> getAllBooks(int pageNumber, int pageSize, int userId);
 
-    int getUserByName(String username);
+    GetUserResponse getUserByName(String username);
 
     void AddBook(int userId, int bookId);
     void delete(int id);

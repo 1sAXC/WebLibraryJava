@@ -5,6 +5,7 @@ import com.webJava.library.dto.auth.RegisterRequest;
 import com.webJava.library.dto.book.CreateBookRequest;
 import com.webJava.library.dto.post.CreatePostRequest;
 import com.webJava.library.dto.post.UpdatePostRequest;
+import com.webJava.library.models.User;
 import com.webJava.library.security.JwtGenerator;
 import com.webJava.library.service.BookService;
 import com.webJava.library.service.PostService;
@@ -37,7 +38,13 @@ public class AdminController {
     }
 
     @GetMapping("/post-upload")
-    public String home2() {
+    public String home2(@CookieValue("AccessToken") String token) {
+        var username = jwt.getUsernameFromJwt(token);
+        var user = userService.getUserByName(username);
+        if (user.getRoleId() <2)
+        {
+            return ("AccessDenied");
+        }
         return "post-upload";
     }
 
@@ -50,6 +57,12 @@ public class AdminController {
     @PostMapping("/post-upload")
     public String addPost(@Valid @ModelAttribute CreatePostRequest request, HttpServletResponse response, Model model, @CookieValue("AccessToken") String token) throws IOException {
         var username = jwt.getUsernameFromJwt(token);
+        var user = userService.getUserByName(username);
+        if (user.getRoleId() <2)
+        {
+            return ("AccessDenied");
+        }
+
         request.setUsername(username);
         var create = postService.create(request);
         return "post-upload";
@@ -74,4 +87,5 @@ public class AdminController {
         postService.delete(id);
         return "about";
     }
+
 }

@@ -58,4 +58,12 @@ public class CatalogController {
         var books = this.bookService.getAll(0, 10).getContent();
         return books;
     }
+
+    @GetMapping("/favoriteBooks")
+    public String favoriteBooks(Model model) {
+        model.addAttribute("title", "Каталог книг");
+        List<GetBookResponse> bookList = retrieveBookList();
+        model.addAttribute("books", bookList);
+        return "favoriteBooks";
+    }
 }

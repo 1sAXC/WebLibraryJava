@@ -17,7 +17,7 @@
     </nav>
 </header>
 <main>
-    <a th:href="@{'/user-add/'}">Добавить пользователя</a>
+    <a th:href="@{'/user-create'}">Добавить пользователя</a>
     <table>
         <tbody>
         <tr th:each="user : ${users}">
@@ -30,7 +30,7 @@
                      style="max-width: 100px; max-height: 150px;" />
             </td>
             <td>
-                <td><a th:text="Изменить" th:href="@{'/user-update/' + ${user.getId()}}"></a></td>
+                <td><a th:text="Изменить" th:href="@{'/'+ ${user.getId()} + '/user-update' }"></a></td>
             </td>
             <td>
                 <form th:action="@{'/' + ${user.getId()} + '/user-delete'}" method="post">

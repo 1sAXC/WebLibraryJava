@@ -1,6 +1,8 @@
 package com.webJava.library.service;
 
 import com.webJava.library.dto.book.GetBookResponse;
+import com.webJava.library.dto.post.GetPostResponse;
+import com.webJava.library.dto.post.UpdatePostRequest;
 import com.webJava.library.dto.user.UpdateUserRequest;
 import com.webJava.library.models.Image;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,12 +20,11 @@ public interface UserService {
 
 
     PageDto<GetUserResponse> getAll(int pageNumber, int pageSize);
+    GetUserResponse update(int id, UpdateUserRequest request) throws IOException;
 
     PageDto<GetUserResponse> getAllByRoleName(int pageNumber, int pageSize, String name);
 
     GetUserResponse changePassword(ChangeUserPasswordRequest request);
-
-    GetUserResponse changeRole(int id, UpdateUserRequest request);
 
     GetUserResponse changeAvatar(MultipartFile avatar) throws IOException;
 
@@ -33,7 +34,6 @@ public interface UserService {
 
     Image getAvatar(int userId);
 
-    void count(int userId);
     void AddBook(int userId, int bookId);
     void delete(int id);
 }

@@ -1,5 +1,6 @@
 package com.webJava.library.service.impl;
 
+import com.webJava.library.dto.user.CreateUserRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,6 +53,24 @@ public class AuthServiceImpl implements AuthService {
             throw new EntityAlreadyExistsException("Username is taken");
 
         var role = roleRepository.findByName("default").orElseThrow(() -> new EntityNotFoundException("Role not found"));
+        var avatar = request.getAvatar();
+        var image = new Image(avatar.getOriginalFilename(), avatar.getContentType(), imageUtils.compress(avatar.getBytes()));
+
+        var user = new User(role, image, request.getUsername(), passwordEncoder.encode(request.getPassword()),
+                request.getFirstName(), request.getLastName());
+
+        var newUser = userRepository.save(user);
+
+        return newUser.getId();
+    }
+
+    @Override
+    @Transactional
+    public int create(CreateUserRequest request) throws IOException {
+        if (userRepository.existsByUsername(request.getUsername()))
+            throw new EntityAlreadyExistsException("Username is taken");
+
+        var role = roleRepository.findByName(request.getRole()).orElseThrow(() -> new EntityNotFoundException("Role not found"));
         var avatar = request.getAvatar();
         var image = new Image(avatar.getOriginalFilename(), avatar.getContentType(), imageUtils.compress(avatar.getBytes()));
 

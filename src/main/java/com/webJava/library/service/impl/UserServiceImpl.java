@@ -107,6 +107,22 @@ public class UserServiceImpl implements UserService {
         return pageUserDtoMaker.makePageDto(page, this::mapToResponse);
     }
 
+    @Override
+    @Transactional
+    public GetUserResponse update(int id, UpdateUserRequest request) throws IOException {
+        var user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        var avatar = request.getImage();
+        var image = new Image(avatar.getOriginalFilename(), avatar.getContentType(), imageUtils.compress(avatar.getBytes()));
+        user.setRole(roleRepository.getById(request.getRole()));
+        user.setAvatar(image);
+        user.setUsername(request.getUsername());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        var updatedUser = userRepository.save(user);
+
+        return mapToResponse(updatedUser);
+    }
+
     /**
      * Получает всех пользователей, отфильтрованных по названию роли.
      *
@@ -155,22 +171,7 @@ public class UserServiceImpl implements UserService {
      * @param request объект запроса на смену роли
      * @return обновленного пользователя
      */
-    @Override
-    public GetUserResponse changeRole(int id, UpdateUserRequest request) {
-        var authorities = authFacade.getAuth().getAuthorities();
 
-        if (!authorities.contains(new SimpleGrantedAuthority("admin")))
-            throw new AccessDeniedException("Access denied");
-
-        var user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        var role = roleRepository.findById(request.getRoleId()).orElseThrow(() -> new EntityNotFoundException("Role not found"));
-
-        user.setRole(role);
-
-        var updatedUser = userRepository.save(user);
-
-        return mapToResponse(updatedUser);
-    }
 
     /**
      * Меняет аватар пользователя.
@@ -207,13 +208,6 @@ public class UserServiceImpl implements UserService {
         return mapToResponse(user.get());
     }
 
-
-    @Override
-    public void count(int userId) {
-        //var count = userRepository.getById(userId).getCount();
-        //userRepository.getById(userId).setCount(count + 1);
-        //userRepository.save(userRepository.getById(userId));
-    }
 
     @Override
     public void AddBook(int userId, int bookId) {

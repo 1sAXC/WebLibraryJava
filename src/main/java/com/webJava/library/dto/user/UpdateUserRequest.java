@@ -1,15 +1,14 @@
 package com.webJava.library.dto.user;
 
+import com.webJava.library.models.Image;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class UpdateUserRequest {
-    private int roleId;
+    private int role;
 
     private String username;
-
-    private String password;
 
     private MultipartFile image;
 

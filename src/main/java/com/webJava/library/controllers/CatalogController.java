@@ -53,6 +53,7 @@ public class CatalogController {
         model.addAttribute("book", this.bookService.getById(id));
         model.addAttribute("bookService", this.bookService);
         model.addAttribute("user", user);
+        model.addAttribute("taken", userService.userHasBook(user.getId(), id));
         /*var users = bookService.getAllUser(0,100, id);*/
         return "book";
     }
@@ -82,10 +83,13 @@ public class CatalogController {
     public String addFavoriteBook(Model model, @CookieValue("AccessToken") String token, @PathVariable int id) {
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);
-        model.addAttribute("title", "Избранное");
-        List<GetBookResponse> bookList = retrieveFavoriteBookList(user.getId());
-        model.addAttribute("books", bookList);
+        //model.addAttribute("title", "Избранное");
+        //List<GetBookResponse> bookList = retrieveFavoriteBookList(user.getId());
+        //model.addAttribute("books", bookList);
         bookService.addUser(user.getId(),id);
+        model.addAttribute("title", "Каталог книг");
+        List<GetBookResponse> bookList = retrieveBookList();
+        model.addAttribute("books", bookList);
         return "catalog";
     }
 }

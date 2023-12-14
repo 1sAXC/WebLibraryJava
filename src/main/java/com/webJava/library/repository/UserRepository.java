@@ -6,6 +6,7 @@ import com.webJava.library.models.User;
 import com.webJava.library.models.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -14,5 +15,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Page<User> findAllByRole_Name(String name, Pageable pageable);
     Optional<User> findAllByUsername(String username);
 
-    /*Page<User> findUsersByBookId(int books_id, Pageable pageable);*/
+    List<User> findUsersByBooksId(int books_id);
 }

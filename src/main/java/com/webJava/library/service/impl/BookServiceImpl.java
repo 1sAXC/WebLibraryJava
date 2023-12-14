@@ -1,20 +1,17 @@
 package com.webJava.library.service.impl;
 
 import com.webJava.library.dto.user.GetUserResponse;
+import com.webJava.library.exceptions.EntityAlreadyExistsException;
 import com.webJava.library.models.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import com.webJava.library.dto.PageDto;
 import com.webJava.library.dto.book.CreateBookRequest;
 import com.webJava.library.dto.book.GetBookResponse;
 import com.webJava.library.exceptions.AccessDeniedException;
 import com.webJava.library.exceptions.EntityNotFoundException;
-import com.webJava.library.exceptions.ValidationException;
 import com.webJava.library.helpers.AuthFacade;
 import com.webJava.library.helpers.ImageUtils;
 import com.webJava.library.helpers.PageDtoMaker;
@@ -26,7 +23,6 @@ import com.webJava.library.repository.UserRepository;
 import com.webJava.library.service.BookService;
 
 import java.io.IOException;
-import java.util.Base64;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -103,11 +99,14 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void addUser(int userId, int bookId) {
+        if (bookRepository.existsByIdAndUsers_Id(bookId, userId)) throw new EntityAlreadyExistsException("user already has this book");
         var book = bookRepository.getById(bookId);
         var user = userRepository.getById(userId);
         user.getBooks().add(book);
         userRepository.save(user);
     }
+
+
 
     @Override
     public void delete(int id) {

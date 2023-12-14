@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> findAllBy(Pageable pageable);
     Page<Book> findBooksByUsersId(int users_id, Pageable pageable);
-
+    boolean existsByIdAndUsers_Id(int bookId, int userId);
 
 }

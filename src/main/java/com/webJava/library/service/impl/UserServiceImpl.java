@@ -8,14 +8,12 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.webJava.library.dto.PageDto;
 import com.webJava.library.dto.user.ChangeUserPasswordRequest;
 import com.webJava.library.dto.user.GetUserResponse;
-import com.webJava.library.exceptions.AccessDeniedException;
 import com.webJava.library.exceptions.EntityNotFoundException;
 import com.webJava.library.exceptions.ValidationException;
 import com.webJava.library.helpers.AuthFacade;
@@ -29,6 +27,7 @@ import com.webJava.library.repository.UserRepository;
 import com.webJava.library.service.UserService;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Класс сервиса пользователей.
@@ -84,6 +83,11 @@ public class UserServiceImpl implements UserService {
         var avatar = user.getAvatar();
 
         return imageUtils.decompress(avatar.getData());
+    }
+
+    @Override
+    public boolean userHasBook(int userId, int bookId) {
+        return bookRepository.existsByIdAndUsers_Id(bookId, userId);
     }
 
     @Override
@@ -203,17 +207,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<GetUserResponse> getAllUsersByBookId(int bookId) {
+        List<User> users = userRepository.findUsersByBooksId(bookId);
+        return users.stream().map(this::mapToResponse).toList();
+    }
+
+    @Override
     public GetUserResponse getUserByName(String username) {
         var user = userRepository.findAllByUsername(username);
         return mapToResponse(user.get());
     }
 
-
-    @Override
-    public void AddBook(int userId, int bookId) {
-        userRepository.getById(userId).getBooks().add(bookRepository.getById(bookId));
-        userRepository.save(userRepository.getById(userId));
-    }
 
     /**
      * Удаляет пользователя по указанному идентификатору.

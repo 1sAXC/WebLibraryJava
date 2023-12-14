@@ -36,12 +36,13 @@
         <img th:src="@{'/' + ${book.getId()} + '/image'}"
              style="max-width: 100px; max-height: 150px;" />
       </td>
-      <div >
-        <td>
-        <form th:action="@{'addFavoriteBook/' + ${book.getId()}}" method="post" >
-          <button>Добавить себе</button>
-        </form>
-      </td>
+      <div th:if="${!taken}">
+        <td >
+          <form th:action="@{'addFavoriteBook/' + ${book.getId()}}" method="post" >
+            <button>Добавить себе</button>
+          </form>
+        </td>
+          </script>
       </div>
     </tr>
     </tbody>

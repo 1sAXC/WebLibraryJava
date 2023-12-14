@@ -11,6 +11,7 @@ import com.webJava.library.dto.user.ChangeUserPasswordRequest;
 import com.webJava.library.dto.user.GetUserResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface UserService {
 
@@ -18,6 +19,7 @@ public interface UserService {
 
     byte[] getUserAvatar(int id);
 
+    boolean userHasBook(int userId, int bookId);
 
     PageDto<GetUserResponse> getAll(int pageNumber, int pageSize);
     GetUserResponse update(int id, UpdateUserRequest request) throws IOException;
@@ -29,11 +31,10 @@ public interface UserService {
     GetUserResponse changeAvatar(MultipartFile avatar) throws IOException;
 
     PageDto<GetBookResponse> getAllBooks(int pageNumber, int pageSize, int userId);
+    List<GetUserResponse> getAllUsersByBookId(int bookId);
 
     GetUserResponse getUserByName(String username);
 
     Image getAvatar(int userId);
-
-    void AddBook(int userId, int bookId);
     void delete(int id);
 }

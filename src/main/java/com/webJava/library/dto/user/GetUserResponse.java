@@ -13,12 +13,14 @@ public class GetUserResponse {
 
     private int roleId;
 
+    private String roleName;
+
     private String username;
+
+    private String password;
 
     private String firstName;
 
     private String lastName;
-    /*private int count;*/
 
-    private Date createdAt;
 }

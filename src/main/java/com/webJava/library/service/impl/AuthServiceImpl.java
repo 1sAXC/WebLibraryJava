@@ -54,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
         var role = roleRepository.findByName("default").orElseThrow(() -> new EntityNotFoundException("Role not found"));
         var avatar = request.getAvatar();
         var image = new Image(avatar.getOriginalFilename(), avatar.getContentType(), imageUtils.compress(avatar.getBytes()));
+
         var user = new User(role, image, request.getUsername(), passwordEncoder.encode(request.getPassword()),
                 request.getFirstName(), request.getLastName());
 

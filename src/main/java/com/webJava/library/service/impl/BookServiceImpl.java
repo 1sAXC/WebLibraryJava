@@ -76,6 +76,13 @@ public class BookServiceImpl implements BookService {
         return imageUtils.decompress(image.getData());
     }
 
+    @Override
+    public PageDto<GetBookResponse> getAllByUserId(int pageNumber, int pageSize, int userId) {
+        var pageRequest = PageRequest.of(pageNumber, pageSize);
+        var page = bookRepository.findBooksByUsersId(userId, pageRequest);
+        return pageDtoMaker.makePageDto(page, this::mapToResponse);
+    }
+
 
     @Override
     @Transactional

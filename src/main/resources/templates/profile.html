@@ -18,14 +18,18 @@
 </header>
 
 <div class="profile-container">
-    <h1>Добро пожаловать: <span th:text="${username}"></span></h1>
-
+    <h1>Добро пожаловать: <span th:text="${user.getFirstName()}"></span></h1>
+    <img th:src="@{'/' + ${user.getId()} + '/avatarImage'}"
+         style="max-width: 100px; max-height: 150px;" />
     <div class="user-info">
     </div>
 
     <div class="admin-panel" th:if="${role == 2 or role == 3}">
         <a type="submit" href="book-upload" class="btn btn-link">Добавить книгу</a>
         <a type="submit" href="post-upload" class="btn btn-link">Добавить новость</a>
+    </div>
+    <div class="advanced-admin-panel" th:if="${role == 3}">
+        <a type="submit" href="user-edit" class="btn btn-link">Управление пользователями</a>
     </div>
 
     <button class="logout-button">Выход</button>

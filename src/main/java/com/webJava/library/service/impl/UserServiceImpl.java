@@ -58,35 +58,6 @@ public class UserServiceImpl implements UserService {
         this.imageUtils = imageUtils;
         this.imageRepository = imageRepository;
     }
-
-    /**
-     * Получает пользователя, отправившего запрос.
-     *
-     * @return пользователя
-     */
-    @Override
-    public GetUserResponse getCurrentUser() {
-        var username = authFacade.getAuth().getName();
-        var user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-        return mapToResponse(user);
-    }
-
-    /**
-     * Получает аватар пользователя, отправившего запрос.
-     *
-     * @return аватар пользователя
-     */
-    @Override
-    @Transactional
-    public byte[] getCurrentUserAvatar() {
-        var username = authFacade.getAuth().getName();
-        var user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        var avatar = user.getAvatar();
-
-        return imageUtils.decompress(avatar.getData());
-    }
-
     /**
      * Получает пользователя по указанному идентификатору.
      *
@@ -113,6 +84,12 @@ public class UserServiceImpl implements UserService {
         var avatar = user.getAvatar();
 
         return imageUtils.decompress(avatar.getData());
+    }
+
+    @Override
+    public Image getAvatar(int userId) {
+        var user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return user.getAvatar();
     }
 
     /**
@@ -230,6 +207,7 @@ public class UserServiceImpl implements UserService {
         return mapToResponse(user.get());
     }
 
+
     @Override
     public void count(int userId) {
         //var count = userRepository.getById(userId).getCount();
@@ -250,13 +228,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void delete(int id) {
-        var authorities = authFacade.getAuth().getAuthorities();
-        var username = authFacade.getAuth().getName();
-        var currentUser = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-        if (!authorities.contains(new SimpleGrantedAuthority("ADMIN")) && currentUser.getId() != id)
-            throw new AccessDeniedException("Access denied");
-
         var user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         userRepository.delete(user);
     }
@@ -268,8 +239,8 @@ public class UserServiceImpl implements UserService {
      * @return объект GetUserResponse, содержащий данные из объекта UserEntity
      */
     private GetUserResponse mapToResponse(User user) {
-        return new GetUserResponse(user.getId(), user.getRole().getId(), user.getUsername(), user.getFirstName(),
-                user.getLastName() /*user.getCount()*/, user.getCreatedAt());
+        return new GetUserResponse(user.getId(), user.getRole().getId(), user.getRole().getName(), user.getUsername(), user.getPassword(), user.getFirstName(),
+                user.getLastName());
     }
 
     private GetBookResponse mapBookToResponse(Book book) {

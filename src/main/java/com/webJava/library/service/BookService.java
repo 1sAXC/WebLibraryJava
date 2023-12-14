@@ -17,6 +17,7 @@ public interface BookService {
 
     byte[] getBookImage(int bookId);
 
+    PageDto<GetBookResponse> getAllByUserId(int pageNumber, int pageSize, int userId);
     GetBookResponse mapToResponse(Book book);
 
     void addUser(int userId, int bookId);

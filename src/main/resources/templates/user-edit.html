@@ -17,21 +17,25 @@
     </nav>
 </header>
 <main>
-    <a th:text="Добавить пользователя" th:href="@{'/user-update/' + ${user.getId()}}"></a>
+    <a th:href="@{'/user-add/'}">Добавить пользователя</a>
     <table>
         <tbody>
         <tr th:each="user : ${users}">
             <td th:text="${user.getUsername()}"></td>
-            <td th:text="${user.getPassword()}"></td>
             <td th:text="${user.getFirstName()}"></td>
             <td th:text="${user.getLastName()}"></td>
-            <td th:text="${user.getRole()}"></td>
+            <td th:text="${user.getRoleName()}"></td>
             <td>
-                <img th:src="@{'/' + ${user.getId()} + '/userImage'}"
+                <img th:src="@{'/' + ${user.getId()} + '/avatarImage'}"
                      style="max-width: 100px; max-height: 150px;" />
             </td>
             <td>
                 <td><a th:text="Изменить" th:href="@{'/user-update/' + ${user.getId()}}"></a></td>
+            </td>
+            <td>
+                <form th:action="@{'/' + ${user.getId()} + '/user-delete'}" method="post">
+                <button type="submit" >Удалить</button>
+            </form>
             </td>
         </tr>
         </tbody>

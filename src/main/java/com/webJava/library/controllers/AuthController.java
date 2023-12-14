@@ -90,7 +90,7 @@ public class AuthController {
         }
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);
-        model.addAttribute("username", username);
+        model.addAttribute("user", user);
         model.addAttribute("role", user.getRoleId());
         return "profile";
     }

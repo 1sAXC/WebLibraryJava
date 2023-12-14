@@ -1,7 +1,10 @@
 package com.webJava.library.service.impl;
 
+import com.webJava.library.dto.user.GetUserResponse;
+import com.webJava.library.models.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -31,17 +34,20 @@ public class BookServiceImpl implements BookService {
     private final AuthFacade authFacade;
     private final UserRepository userRepository;
     private final PageDtoMaker<Book, GetBookResponse> pageDtoMaker;
+
+    private final PageDtoMaker<User, GetUserResponse> pageDtoMakerUser;
     private final ImageUtils imageUtils;
     private final ImageRepository imageRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, AuthFacade authFacade, UserRepository userRepository, PageDtoMaker<Book, GetBookResponse> pageDtoMaker, ImageUtils imageUtils, ImageRepository imageRepository) {
+    public BookServiceImpl(BookRepository bookRepository, AuthFacade authFacade, UserRepository userRepository, PageDtoMaker<Book, GetBookResponse> pageDtoMaker, ImageUtils imageUtils, ImageRepository imageRepository, PageDtoMaker<User, GetUserResponse> pageDtoMakerUser) {
         this.bookRepository = bookRepository;
         this.authFacade = authFacade;
         this.userRepository = userRepository;
         this.pageDtoMaker = pageDtoMaker;
         this.imageUtils = imageUtils;
         this.imageRepository = imageRepository;
+        this.pageDtoMakerUser = pageDtoMakerUser;
     }
 
     @Override
@@ -77,6 +83,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public PageDto<GetBookResponse> getAllByUserId(int pageNumber, int pageSize, int userId) {
         var pageRequest = PageRequest.of(pageNumber, pageSize);
         var page = bookRepository.findBooksByUsersId(userId, pageRequest);
@@ -114,8 +121,19 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(book);
     }
 
+    /*@Override
+    public PageDto<GetUserResponse> getAllUser(int pageNumber, int pageSize, int bookId) {
+        *//*var pageRequest = PageRequest.of(pageNumber, pageSize);
+        Page<User> page = userRepository.findUsersByBookId(bookId, pageRequest);
+        return pageDtoMakerUser.makePageDto(page, this::mapUserToResponse);*//*
+    }*/
+
     public GetBookResponse mapToResponse(Book book) {
         return new GetBookResponse(book.getId(), book.getTitle(), book.getAuthor(), book.getAnnotation());
+    }
+
+    public GetUserResponse mapUserToResponse(User user) {
+        return new GetUserResponse(user.getId(), user.getRole().getId(), user.getRole().getName(), user.getUsername(),user.getPassword(), user.getFirstName(), user.getLastName());
     }
 }
 

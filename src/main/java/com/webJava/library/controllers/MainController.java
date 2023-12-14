@@ -20,7 +20,7 @@ public class MainController {
         this.jwt = jwt;
     }
     @GetMapping("/")
-    public String home(Model model, @CookieValue("AccessToken") String token) {
+    public String home(Model model) {
         model.addAttribute("title", "Главная страница");
         model.addAttribute("count", statusService.getVisitors());
         return "home";

@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Каталог</title>
+    <link rel="stylesheet" href="http://localhost:8080/css/styleHome.css">
 </head>
 <body>
+<header>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="http://localhost:8080/">Главная</a></li>
+            <li><a href="http://localhost:8080/catalog">Каталог книг</a></li>
+            <li><a href="http://localhost:8080/about">О нас</a></li>
+            <li><a href="http://localhost:8080/profile">Профиль</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.getTitle()}"></td>
+            <td th:text="${book.getAuthor()}"></td>
+            <!--<td th:text="${book.getAnnotation()}"></td>-->
+            <td>
+                <img th:src="@{'/' + ${book.getId()} + '/image'}"
+                     style="max-width: 100px; max-height: 150px;" />
+            </td>
+            <td><a th:text="Открыть" th:href="@{'/book/' + ${book.getId()}}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
 
 </body>
 </html>

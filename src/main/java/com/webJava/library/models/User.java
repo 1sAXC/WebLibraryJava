@@ -25,8 +25,14 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_id")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "user_books",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "book_id") })
     private List<Book> books = new ArrayList<>();
 
     @Column(unique = true, nullable = false)

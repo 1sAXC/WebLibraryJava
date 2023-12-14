@@ -24,8 +24,12 @@ public class Book {
     @Column(nullable = false)
     private String author;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_id")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "books")
     private List<User> users = new ArrayList<>();
 
     @Lob

@@ -4,7 +4,6 @@ import com.webJava.library.dto.book.GetBookResponse;
 import com.webJava.library.dto.user.UpdateUserRequest;
 import com.webJava.library.models.Book;
 import com.webJava.library.repository.BookRepository;
-import com.webJava.library.service.BookService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,8 +29,6 @@ import com.webJava.library.repository.UserRepository;
 import com.webJava.library.service.UserService;
 
 import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
 
 /**
  * Класс сервиса пользователей.
@@ -222,7 +219,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageDto<GetBookResponse> getAllBooks(int pageNumber, int pageSize, int userId) {
         var pageRequest = PageRequest.of(pageNumber, pageSize);
-        Page<Book> page = bookRepository.findAllByUsers_Id(userId, pageRequest);
+        Page<Book> page = bookRepository.findBooksByUsersId(userId, pageRequest);
 
         return pageBookDtoMaker.makePageDto(page, this::mapBookToResponse);
     }

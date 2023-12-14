@@ -87,9 +87,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void AddUser(int userId, int bookId) {
-        bookRepository.getById(bookId).getUsers().add(userRepository.getById(userId));
-        bookRepository.save(bookRepository.getById(bookId));
+    @Transactional
+    public void addUser(int userId, int bookId) {
+        var book = bookRepository.getById(bookId);
+        var user = userRepository.getById(userId);
+        user.getBooks().add(book);
+        userRepository.save(user);
     }
 
     @Override

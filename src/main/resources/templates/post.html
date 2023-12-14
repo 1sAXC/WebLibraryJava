@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>О нас</title>
+    <title>Каталог</title>
     <link rel="stylesheet" href="css/styleHome.css">
 </head>
 <body>
@@ -10,16 +10,16 @@
     <nav class="navbar">
         <ul class="nav-links">
             <li><a href="/">Главная</a></li>
-            <li><a href="catalog">Каталог книг</a></li>
-            <li><a href="about">О нас</a></li>
-            <li><a href="profile">Профиль</a></li>
+            <li><a href="./catalog">Каталог книг</a></li>
+            <li><a href="./about">О нас</a></li>
+            <li><a href="./profile">Профиль</a></li>
         </ul>
     </nav>
 </header>
 <main>
     <table>
         <tbody>
-        <tr th:each="post : ${posts}">
+        <tr>
             <td th:text="${post.getUserId()}"></td>
             <td th:text="${post.getCreatedAt()}"></td>
             <td th:text="${post.getTitle()}"></td>
@@ -28,12 +28,13 @@
                 <img th:src="@{'/' + ${post.getId()} + '/postImage'}"
                      style="max-width: 100px; max-height: 150px;" />
             </td>
-            <td>
-                <div class="admin-panel" th:if="${role == 2 or role == 3}">
-                    <td><a th:text="Открыть" th:href="@{'/post/' + ${post.getId()}}"></a></td>
-                </div>
-            </td>
         </tr>
+        <div class="admin-panel" th:if="${role == 2 or role == 3}">
+            <a th:href="@{'/' + ${post.getId()} + '/post-update'}">Редактировать новость</a>
+            <form th:action="@{'/' + ${post.getId()} + '/post-delete'}" method="post">
+                <button type="submit" >Удалить новость</button>
+            </form>
+        </div>
         </tbody>
     </table>
 </main>

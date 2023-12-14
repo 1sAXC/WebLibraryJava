@@ -36,6 +36,9 @@
         <img th:src="@{'/' + ${book.getId()} + '/image'}"
              style="max-width: 100px; max-height: 150px;" />
       </td>
+      <td>
+      <button th:onclick="${bookService.addUser(user.getId(), book.getId())}">Добавить себе</button>
+      </td>
     </tr>
     </tbody>
   </table>

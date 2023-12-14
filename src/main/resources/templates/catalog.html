@@ -26,7 +26,6 @@
         </tr>
         </thead>
         <tbody>
-        <!-- Использование Thymeleaf для отображения списка книг -->
         <tr th:each="book : ${books}">
             <td th:text="${book.getTitle()}"></td>
             <td th:text="${book.getAuthor()}"></td>
@@ -36,7 +35,6 @@
                      style="max-width: 100px; max-height: 150px;" />
             </td>
             <td><a th:text="Открыть" th:href="@{'/book/' + ${book.getId()}}"></a></td>
-            <button onclick="addUserToBook(${book.id})">Добавить</button>
         </tr>
         </tbody>
     </table>

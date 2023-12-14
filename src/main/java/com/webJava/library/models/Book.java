@@ -14,10 +14,6 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_id")
-    private List<User> users = new ArrayList<>();
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
     private Image image;
@@ -27,6 +23,10 @@ public class Book {
 
     @Column(nullable = false)
     private String author;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_id")
+    private List<User> users = new ArrayList<>();
 
     @Lob
     @Column(nullable = false)

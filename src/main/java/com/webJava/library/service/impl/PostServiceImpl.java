@@ -1,5 +1,6 @@
 package com.webJava.library.service.impl;
 
+import com.webJava.library.models.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -47,14 +48,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public int create(CreatePostRequest request) throws IOException {
-        var username = authFacade.getAuth().getName();
+        /*var username = authFacade.getAuth().getName();
         var user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
         if (user.getRole().getName().equals("default"))
-            throw new AccessDeniedException("Access Denied");
+            throw new AccessDeniedException("Access Denied");*/
         var file = request.getImage();
         var image = new Image(file.getOriginalFilename(), file.getContentType(), imageUtils.compress(file.getBytes()));
-        var post = new Post(user, image, request.getTitle(), request.getContent());
-
+        var user = userRepository.findAllByUsername(request.getUsername());
+        var post = new Post(user.get(), image, request.getTitle(), request.getContent());
         var newPost = postRepository.save(post);
 
         return newPost.getId();
@@ -91,11 +92,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public GetPostResponse update(int id, UpdatePostRequest request) {
-        var username = authFacade.getAuth().getName();
-        var user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
         var post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post not found"));
-        if (user.getRole().getName().equals("default"))
-            throw new AccessDeniedException("Access Denied");
 
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
@@ -125,16 +122,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(int id) {
-        var authorities = authFacade.getAuth().getAuthorities();
-        var username = authFacade.getAuth().getName();
-        var currentUser = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
         var post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post not found"));
-
-        if (!authorities.contains(new SimpleGrantedAuthority("ADMIN")) &&
-                !authorities.contains(new SimpleGrantedAuthority("MODERATOR")) &&
-                currentUser.getId() != post.getUser().getId())
-            throw new AccessDeniedException("Access denied");
-
         postRepository.delete(post);
     }
     

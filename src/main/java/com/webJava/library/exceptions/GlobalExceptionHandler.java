@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import java.security.SignatureException;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -70,4 +71,11 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorModel, HttpStatus.BAD_REQUEST);
     }
+
+    /*@ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла внутренняя ошибка сервера: " + ex.getMessage());
+    }*/
+
 }

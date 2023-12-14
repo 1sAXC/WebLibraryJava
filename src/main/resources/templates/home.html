@@ -15,10 +15,15 @@
             <li><a href="profile">Профиль</a></li>
         </ul>
     </nav>
-</header>
 
+</header>
+<div>
+    <th:block th:include="/timeFragment"></th:block>
+    <th:block th:include="/counter"></th:block>
+</div>
 <main>
     <h1>Добро пожаловать в библиотеку!</h1>
     <p>Здесь вы найдете множество книг для чтения.</p>
+</main>
 </body>
 </html>

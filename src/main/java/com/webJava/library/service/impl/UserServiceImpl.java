@@ -31,6 +31,7 @@ import com.webJava.library.service.UserService;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * Класс сервиса пользователей.

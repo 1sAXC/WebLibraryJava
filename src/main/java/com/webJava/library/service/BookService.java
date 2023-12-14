@@ -19,7 +19,7 @@ public interface BookService {
 
     GetBookResponse mapToResponse(Book book);
 
-    void AddUser(int userId, int bookId);
+    void addUser(int userId, int bookId);
 
     void delete(int id);
 }

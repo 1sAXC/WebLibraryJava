@@ -4,6 +4,7 @@ import com.webJava.library.models.User;
 import com.webJava.library.repository.UserRepository;
 import com.webJava.library.service.StatusService;
 import com.webJava.library.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.ui.Model;
 import com.webJava.library.security.JwtGenerator;
@@ -93,6 +94,14 @@ public class AuthController {
         model.addAttribute("username", username);
         model.addAttribute("role", user.getRoleId());
         return "profile";
+    }
+
+    @PostMapping("/exit")
+    public String exit(@CookieValue(value = "AccessToken", required = false) String token, HttpServletResponse response, Model model)  {
+        var coockie = new Cookie("AccessToken","");
+        coockie.setMaxAge(0);
+        response.addCookie(coockie);
+        return "/login";
     }
 
 

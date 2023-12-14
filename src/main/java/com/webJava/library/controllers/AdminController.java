@@ -93,5 +93,4 @@ public class AdminController {
         postService.delete(id);
         return "about";
     }
-
 }

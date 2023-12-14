@@ -27,8 +27,9 @@
         <a type="submit" href="book-upload" class="btn btn-link">Добавить книгу</a>
         <a type="submit" href="post-upload" class="btn btn-link">Добавить новость</a>
     </div>
-
-    <button class="logout-button">Выход</button>
+    <form action="/exit" method="post" enctype="multipart/form-data">
+        <button type="submit" class="logout-button">Выход</button>
+    </form>
 </div>
 
 </body>

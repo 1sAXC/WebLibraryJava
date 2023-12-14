@@ -86,6 +86,6 @@ public class CatalogController {
         List<GetBookResponse> bookList = retrieveFavoriteBookList(user.getId());
         model.addAttribute("books", bookList);
         bookService.addUser(user.getId(),id);
-        return "favoriteBooks";
+        return "catalog";
     }
 }

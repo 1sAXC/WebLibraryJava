@@ -76,8 +76,14 @@ public class AdminController {
     }
 
     @GetMapping("/{id}/post-update")
-    public String getUpdatePost(HttpServletResponse response, Model model, @PathVariable int id) throws IOException {
+    public String getUpdatePost(HttpServletResponse response, Model model, @PathVariable int id, @CookieValue("AccessToken") String token) throws IOException {
         model.addAttribute("post", postService.getById(id));
+        var username = jwt.getUsernameFromJwt(token);
+        var user = userService.getUserByName(username);
+        if (user.getRoleId() <2)
+        {
+            return ("AccessDenied");
+        }
         return "post-update";
     }
 

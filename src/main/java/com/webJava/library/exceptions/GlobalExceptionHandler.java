@@ -2,6 +2,7 @@ package com.webJava.library.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -77,5 +78,10 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла внутренняя ошибка сервера: " + ex.getMessage());
     }*/
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public String handleSignatureException(AuthenticationCredentialsNotFoundException ex) {
+        ex.printStackTrace();
+        return "login";
+    }
 
 }

@@ -41,6 +41,7 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
+
     @CreationTimestamp
     private Date createdAt;
 

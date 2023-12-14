@@ -2,6 +2,7 @@ package com.webJava.library.controllers;
 
 import com.webJava.library.models.User;
 import com.webJava.library.repository.UserRepository;
+import com.webJava.library.service.StatusService;
 import com.webJava.library.service.UserService;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.ui.Model;
@@ -30,14 +31,16 @@ public class AuthController {
     private final AuthService authService;
 
     private final UserService userService;
+    private final StatusService statusService;
     private final JwtGenerator jwt;
     private AttributedString redirectAttributes;
 
     @Autowired
-    public AuthController(AuthService authService, JwtGenerator jwt, UserService userService) {
+    public AuthController(AuthService authService, JwtGenerator jwt, UserService userService, StatusService statusService) {
         this.authService = authService;
         this.jwt = jwt;
         this.userService = userService;
+        this.statusService = statusService;
     }
 
     /**
@@ -51,10 +54,9 @@ public class AuthController {
         var register = authService.register(request);
 
         var res = authService.login(new LoginRequest(request.getUsername(), request.getPassword()));
-
+        statusService.addVisitor();
         var cookie = new Cookie("AccessToken", res.getAccessToken());
         response.addCookie(cookie);
-
         return profile(res.getAccessToken(), model);
         //
         // return ResponseEntity.ok().header("redirect", "/login").body(0);
@@ -70,7 +72,7 @@ public class AuthController {
     public String login(@Valid LoginRequest request, HttpServletResponse response, Model model) {
         try{
             var res= authService.login(request);
-
+            statusService.addVisitor();
             var cookie = new Cookie("AccessToken", res.getAccessToken());
             response.addCookie(cookie);
             return profile(res.getAccessToken(), model);

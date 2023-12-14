@@ -28,6 +28,7 @@ public class JwtGenerator {
     }
 
     public String getUsernameFromJwt(String token) {
+        try {
         var claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
@@ -35,6 +36,9 @@ public class JwtGenerator {
                 .getBody();
 
         return claims.getSubject();
+        } catch (Exception ex) {
+            throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect");
+        }
     }
 
     public boolean validateToken(String token) {

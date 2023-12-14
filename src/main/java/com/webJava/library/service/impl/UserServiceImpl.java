@@ -234,6 +234,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void count(int userId) {
+        //var count = userRepository.getById(userId).getCount();
+        //userRepository.getById(userId).setCount(count + 1);
+        //userRepository.save(userRepository.getById(userId));
+    }
+
+    @Override
     public void AddBook(int userId, int bookId) {
         userRepository.getById(userId).getBooks().add(bookRepository.getById(bookId));
         userRepository.save(userRepository.getById(userId));
@@ -265,7 +272,7 @@ public class UserServiceImpl implements UserService {
      */
     private GetUserResponse mapToResponse(User user) {
         return new GetUserResponse(user.getId(), user.getRole().getId(), user.getUsername(), user.getFirstName(),
-                user.getLastName(), user.getCreatedAt());
+                user.getLastName() /*user.getCount()*/, user.getCreatedAt());
     }
 
     private GetBookResponse mapBookToResponse(Book book) {

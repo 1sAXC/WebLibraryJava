@@ -33,6 +33,7 @@ public interface UserService {
 
     GetUserResponse getUserByName(String username);
 
+    void count(int userId);
     void AddBook(int userId, int bookId);
     void delete(int id);
 }

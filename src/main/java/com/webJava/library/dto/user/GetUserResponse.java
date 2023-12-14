@@ -18,6 +18,7 @@ public class GetUserResponse {
     private String firstName;
 
     private String lastName;
+    /*private int count;*/
 
     private Date createdAt;
 }

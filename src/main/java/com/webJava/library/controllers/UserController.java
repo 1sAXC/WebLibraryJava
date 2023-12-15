@@ -51,7 +51,7 @@ public class UserController {
     public String deleteUser(HttpServletResponse response, Model model, @PathVariable int id) throws IOException {
         model.addAttribute("user", userService.getById(id));
         userService.delete(id);
-        return "profile";
+        return "home";
     }
 
     @GetMapping("/user-create")

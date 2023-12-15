@@ -18,27 +18,39 @@
 </header>
 
 <div class="profile-container">
-    <h1>Добро пожаловать: <span th:text="${user.getFirstName()}"></span></h1>
-    <img th:src="@{'/' + ${user.getId()} + '/avatarImage'}"
-         style="max-width: 100px; max-height: 150px;" />
+    <div class="profile-header">
+        <div class="avatar-container">
+            <img th:src="@{'/' + ${user.getId()} + '/avatarImage'}" alt="User Avatar" class="avatar-image" />
+        </div>
+        <h1>Добро пожаловать, <span th:text="${user.getFirstName()}"></span></h1>
+        <div class="additional-info">
+            <div><strong>Никнейм:</strong> <span th:text="${user.getUsername()}"></span></div>
+            <div><strong>Фамилия:</strong> <span th:text="${user.getLastName()}"></span></div>
+        </div>
+    </div>
     <div class="user-info">
     </div>
 
-    <div class="admin-panel" th:if="${role == 2 or role == 3}">
-        <a type="submit" href="book-upload" class="btn btn-link">Добавить книгу</a>
-        <a type="submit" href="post-upload" class="btn btn-link">Добавить новость</a>
+    <div class="admin-panels">
+        <div class="admin-panel" th:if="${role == 2 or role == 3}">
+            <div><a type="submit" href="book-upload" class="btn btn-primary">Добавить книгу</a></div>
+            <div><a type="submit" href="post-upload" class="btn btn-primary">Добавить новость</a></div>
+        </div>
+
+        <div class="advanced-admin-panel" th:if="${role == 3}">
+            <div><a type="submit" href="user-edit" class="btn btn-primary">Управление пользователями</a></div>
+        </div>
     </div>
-    <div class="advanced-admin-panel" th:if="${role == 3}">
-        <a type="submit" href="user-edit" class="btn btn-link">Управление пользователями</a>
-    </div>
-    <div >
-        <a type="submit" href="favoriteBooks" class="btn btn-link">Избранное</a>
+
+    <div class="favorite-books">
+        <div><a type="submit" href="favoriteBooks" class="btn btn-primary">Избранное</a></div>
     </div>
 
     <form action="/exit" method="post" enctype="multipart/form-data">
-        <button type="submit" class="logout-button">Выход</button>
+        <button type="submit" class="logout-button btn btn-danger">Выход</button>
     </form>
 </div>
+
 
 </body>
 </html>

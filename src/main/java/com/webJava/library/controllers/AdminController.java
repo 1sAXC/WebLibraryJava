@@ -33,7 +33,13 @@ public class AdminController {
         this.jwt = jwt;
     }
     @GetMapping("/book-upload")
-    public String home() {
+    public String home(@CookieValue("AccessToken") String token) {
+        var username = jwt.getUsernameFromJwt(token);
+        var user = userService.getUserByName(username);
+        if (user.getRoleId() <2)
+        {
+            return ("AccessDenied");
+        }
         return "book-upload";
     }
 
@@ -88,9 +94,15 @@ public class AdminController {
     }
 
     @PostMapping("/{id}/post-delete")
-    public String deletePost(HttpServletResponse response, Model model, @PathVariable int id) throws IOException {
+    public String deletePost(HttpServletResponse response, Model model, @PathVariable int id, @CookieValue("AccessToken") String token) throws IOException {
         model.addAttribute("post", postService.getById(id));
         postService.delete(id);
+        var username = jwt.getUsernameFromJwt(token);
+        var user = userService.getUserByName(username);
+        if (user.getRoleId() <2)
+        {
+            return ("AccessDenied");
+        }
         return "about";
     }
 }

@@ -48,6 +48,10 @@ public class CatalogController {
 
     @GetMapping(value = "/book/{id}")
     public String getBook(@PathVariable int id, Model model, @CookieValue("AccessToken") String token) {
+        if (token == null)
+        {
+            return "login";
+        }
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);
         model.addAttribute("book", this.bookService.getById(id));

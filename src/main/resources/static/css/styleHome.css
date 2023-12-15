@@ -25,8 +25,170 @@ header {
 .nav-links li a:hover {
     background-color: #555;
 }
-/* Дополнительные стили для главной страницы */
-main {
-    padding: 20px;
-    text-align: center;
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
 }
+
+.stats {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.stats p {
+    margin: 5px 0;
+}
+
+.stats span {
+    font-weight: bold;
+    color: #3498db;
+}
+
+h1 {
+    color: #3498db;
+}
+
+main {
+    max-width: 1300px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    line-height: 1.6;
+}
+
+/* Добавьте стили для таблицы */
+.books-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.books-table th, .books-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.books-table thead {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.books-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Стили для изображения в ячейке */
+.books-table td img {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Стили для ссылки */
+.books-table td a {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.books-table td a:hover {
+    background-color: #2980b9;
+}
+
+.books-table img {
+        max-width: 500px;
+        max-height: 1500px;
+    }
+
+
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-container {
+    width: 170px;
+    height: 170px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.additional-info {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.additional-info div {
+    margin-bottom: 5px;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+.logout-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+
+
+.btn {
+    display: inline-block;
+        margin-bottom: 10px;
+        padding: 5px 10px;
+        background-color: #3498db;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 3px;
+}
+
+.btn-primary {
+    display: inline-block;
+        padding: 5px 10px;
+        background-color: #3498db;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 3px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+

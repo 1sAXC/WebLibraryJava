@@ -34,6 +34,7 @@ public interface UserService {
     List<GetUserResponse> getAllUsersByBookId(int bookId);
 
     GetUserResponse getUserByName(String username);
+    GetUserResponse getUserById(int id);
 
     Image getAvatar(int userId);
     void delete(int id);

@@ -27,11 +27,14 @@ public class NewsController {
     }
 
     @GetMapping("/about")
-    public String about(Model model) {
+    public String about(@CookieValue(value = "AccessToken", required = false) String token, Model model) {
+        var username = jwt.getUsernameFromJwt(token);
+        var user = userService.getUserByName(username);
         model.addAttribute("title", "О нас");
         List<GetPostResponse> postList = retrievePostList();
         model.addAttribute("posts", postList);
         model.addAttribute("postService", postService);
+        model.addAttribute("role", user.getRoleId());
         return "about";
     }
 
@@ -48,6 +51,10 @@ public class NewsController {
 
     @GetMapping(value = "/post/{id}")
     public String getPost(@PathVariable int id, Model model, @CookieValue("AccessToken") String token) {
+        if (token == null)
+        {
+            return "login";
+        }
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);
         model.addAttribute("role", user.getRoleId());

@@ -17,7 +17,7 @@
     </nav>
 </header>
 <main>
-    <table>
+    <table class="books-table">
         <tbody>
         <tr>
             <td th:text="${post.getUserId()}"></td>
@@ -25,14 +25,13 @@
             <td th:text="${post.getTitle()}"></td>
             <td th:text="${post.getContent()}"></td>
             <td>
-                <img th:src="@{'/' + ${post.getId()} + '/postImage'}"
-                     style="max-width: 100px; max-height: 150px;" />
+                <img th:src="@{'/' + ${post.getId()} + '/postImage'}"/>
             </td>
         </tr>
         <div class="admin-panel" th:if="${role == 2 or role == 3}">
-            <a th:href="@{'/' + ${post.getId()} + '/post-update'}">Редактировать новость</a>
+            <a class="btn btn-primary"  th:href="@{'/' + ${post.getId()} + '/post-update'}">Редактировать новость</a>
             <form th:action="@{'/' + ${post.getId()} + '/post-delete'}" method="post">
-                <button type="submit" >Удалить новость</button>
+                <button type="submit" class="logout-button btn btn-danger" >Удалить новость</button>
             </form>
         </div>
         </tbody>

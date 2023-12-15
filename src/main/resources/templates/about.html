@@ -17,22 +17,28 @@
     </nav>
 </header>
 <main>
-    <table>
+    <table class="books-table">
+        <thead>
+        <tr>
+            <th>Автор</th>
+            <th>Дата</th>
+            <th>Название</th>
+            <th>Содержание</th>
+        </tr>
+        </thead>
         <tbody>
         <tr th:each="post : ${posts}">
-            <td th:text="${post.getUserId()}"></td>
+            <td th:text="${post.getCreator()}"></td>
             <td th:text="${post.getCreatedAt()}"></td>
             <td th:text="${post.getTitle()}"></td>
             <td th:text="${post.getContent()}"></td>
             <td>
                 <img th:src="@{'/' + ${post.getId()} + '/postImage'}"
-                     style="max-width: 100px; max-height: 150px;" />
+                     style="max-width: 500px; max-height: 1500px;" />
             </td>
-            <td>
                 <div class="admin-panel" th:if="${role == 2 or role == 3}">
                     <td><a th:text="Открыть" th:href="@{'/post/' + ${post.getId()}}"></a></td>
                 </div>
-            </td>
         </tr>
         </tbody>
     </table>

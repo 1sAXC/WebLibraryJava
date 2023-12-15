@@ -127,7 +127,7 @@ public class PostServiceImpl implements PostService {
     }
     
     private GetPostResponse mapToResponse(Post post) {
-        return new GetPostResponse(post.getId(), post.getUser().getId(), post.getTitle(), post.getContent(),
+        return new GetPostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(), post.getTitle(), post.getContent(),
                 post.isPublished(), post.getCreatedAt(), post.getUpdatedAt());
     }
 }

@@ -14,6 +14,8 @@ public class GetPostResponse {
 
     private int userId;
 
+    private String creator;
+
     private String title;
 
     private String content;

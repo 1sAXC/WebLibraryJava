@@ -17,12 +17,12 @@
     </nav>
 </header>
 <main>
-    <table>
+    <table class="books-table">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Description</th>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Описание</th>
         </tr>
         </thead>
         <tbody>
@@ -31,8 +31,7 @@
             <td th:text="${book.getAuthor()}"></td>
             <!--<td th:text="${book.getAnnotation()}"></td>-->
             <td>
-                <img th:src="@{'/' + ${book.getId()} + '/image'}"
-                     style="max-width: 100px; max-height: 150px;" />
+                <img th:src="@{'/' + ${book.getId()} + '/image'}"/>
             </td>
             <td><a th:text="Открыть" th:href="@{'/book/' + ${book.getId()}}"></a></td>
         </tr>

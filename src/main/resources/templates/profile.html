@@ -22,7 +22,7 @@
         <div class="avatar-container">
             <img th:src="@{'/' + ${user.getId()} + '/avatarImage'}" alt="User Avatar" class="avatar-image" />
         </div>
-        <h1>Добро пожаловать: <span th:text="${user.getFirstName()}"></span></h1>
+        <h1>Добро пожаловать, <span th:text="${user.getFirstName()}"></span></h1>
         <div class="additional-info">
             <div><strong>Никнейм:</strong> <span th:text="${user.getUsername()}"></span></div>
             <div><strong>Фамилия:</strong> <span th:text="${user.getLastName()}"></span></div>

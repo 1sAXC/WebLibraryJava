@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CreateUserRequest {
     private String role;
 
-    @Size(min = 0, max = 300)
+    @Size(min = 0, max = 100000)
     private String username;
 
     @Pattern(regexp = "^.*$")

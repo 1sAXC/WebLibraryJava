@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class LoginRequest {
-    @Size(min = 0, max = 300)
+    @Size(min = 0, max = 100000)
     private String username;
 
     @Pattern(regexp = "^.*$")

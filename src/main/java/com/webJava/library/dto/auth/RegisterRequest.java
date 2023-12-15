@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class RegisterRequest {
-    @Size(min = 0, max = 300)
+    @Size(min = 0, max = 10000)
     private String username;
 
     @Pattern(regexp = "^.*$")

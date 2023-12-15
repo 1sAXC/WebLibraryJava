@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class ChangeUserPasswordRequest {
 
-    @Pattern(regexp = "(?=\\w*[a-z])(?=\\w*[A-Z])(?=\\w*[0-9])\\w{8,}")
+    @Pattern(regexp = "^.*$")
     private String oldPassword;
 
-    @Pattern(regexp = "(?=\\w*[a-z])(?=\\w*[A-Z])(?=\\w*[0-9])\\w{8,}")
+    @Pattern(regexp = "^.*$")
     private String newPassword;
 }

@@ -15,7 +15,7 @@
 
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/topic/current-time', function (message) {
-            var currentTime = new Date(message.body); // Получение тела сообщения (времени) из объекта message
+            var currentTime = new Date(message.body);
             document.getElementById('server-time').innerHTML = 'Server Time: ' + currentTime.toLocaleString();
         });
     });

@@ -36,7 +36,11 @@ public class UserController {
     }
 
     @GetMapping("/user-edit")
-    public String add(Model model) throws IOException {
+    public String add(Model model, @CookieValue(value = "AccessToken", required = false) String token) throws IOException {
+        if (token == null)
+        {
+            return "login";
+        }
         List<GetUserResponse> userList = retrieveUserList();
         model.addAttribute("users", userList);
         return "user-edit";
@@ -55,7 +59,11 @@ public class UserController {
     }
 
     @GetMapping("/user-create")
-    public String home2(@CookieValue("AccessToken") String token) {
+    public String home2(@CookieValue(value = "AccessToken", required = false) String token) {
+        if (token == null)
+        {
+            return "login";
+        }
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);
         if (user.getRoleId() <2)
@@ -85,7 +93,11 @@ public class UserController {
     }
 
     @GetMapping("/{id}/user-update")
-    public String getUpdatePost(HttpServletResponse response, Model model, @PathVariable int id, @CookieValue("AccessToken") String token) throws IOException {
+    public String getUpdatePost(HttpServletResponse response, Model model, @PathVariable int id, @CookieValue(value = "AccessToken", required = false) String token) throws IOException {
+        if (token == null)
+        {
+            return "login";
+        }
         model.addAttribute("user", userService.getById(id));
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);

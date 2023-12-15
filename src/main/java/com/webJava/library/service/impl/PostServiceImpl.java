@@ -14,7 +14,6 @@ import com.webJava.library.dto.post.UpdatePostRequest;
 import com.webJava.library.exceptions.AccessDeniedException;
 import com.webJava.library.exceptions.EntityNotFoundException;
 import com.webJava.library.exceptions.ValidationException;
-import com.webJava.library.helpers.AuthFacade;
 import com.webJava.library.helpers.ImageUtils;
 import com.webJava.library.helpers.PageDtoMaker;
 import com.webJava.library.models.Image;
@@ -30,16 +29,14 @@ import java.util.Date;
 @Service
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    private final AuthFacade authFacade;
     private final UserRepository userRepository;
     private final PageDtoMaker<Post, GetPostResponse> pageDtoMaker;
     private final ImageUtils imageUtils;
     private final ImageRepository imageRepository;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository, AuthFacade authFacade, UserRepository userRepository, PageDtoMaker<Post, GetPostResponse> pageDtoMaker, ImageUtils imageUtils, ImageRepository imageRepository) {
+    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository, PageDtoMaker<Post, GetPostResponse> pageDtoMaker, ImageUtils imageUtils, ImageRepository imageRepository) {
         this.postRepository = postRepository;
-        this.authFacade = authFacade;
         this.userRepository = userRepository;
         this.pageDtoMaker = pageDtoMaker;
         this.imageUtils = imageUtils;
@@ -96,24 +93,6 @@ public class PostServiceImpl implements PostService {
 
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
-
-        var updatedPost = postRepository.save(post);
-
-        return mapToResponse(updatedPost);
-    }
-
-
-    @Override
-    @Transactional
-    public GetPostResponse changeImage(int id, MultipartFile image) throws IOException {
-        var username = authFacade.getAuth().getName();
-        var user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        var post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post not found"));
-
-        imageRepository.delete(post.getImage());
-
-        var imageDb = new Image(image.getOriginalFilename(), image.getContentType(), imageUtils.compress(image.getBytes()));
-        post.setImage(imageDb);
 
         var updatedPost = postRepository.save(post);
 

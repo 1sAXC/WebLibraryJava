@@ -73,11 +73,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorModel, HttpStatus.BAD_REQUEST);
     }
 
-    /*@ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception ex) {
         ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла внутренняя ошибка сервера: " + ex.getMessage());
-    }*/
+    }
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
     public String handleSignatureException(AuthenticationCredentialsNotFoundException ex) {
         ex.printStackTrace();

@@ -29,7 +29,6 @@
         <tr th:each="book : ${books}">
             <td th:text="${book.getTitle()}"></td>
             <td th:text="${book.getAuthor()}"></td>
-            <!--<td th:text="${book.getAnnotation()}"></td>-->
             <td>
                 <img th:src="@{'/' + ${book.getId()} + '/image'}"/>
             </td>

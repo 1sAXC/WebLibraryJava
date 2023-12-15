@@ -12,7 +12,6 @@ import com.webJava.library.dto.book.CreateBookRequest;
 import com.webJava.library.dto.book.GetBookResponse;
 import com.webJava.library.exceptions.AccessDeniedException;
 import com.webJava.library.exceptions.EntityNotFoundException;
-import com.webJava.library.helpers.AuthFacade;
 import com.webJava.library.helpers.ImageUtils;
 import com.webJava.library.helpers.PageDtoMaker;
 import com.webJava.library.models.Image;
@@ -27,7 +26,6 @@ import java.io.IOException;
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
-    private final AuthFacade authFacade;
     private final UserRepository userRepository;
     private final PageDtoMaker<Book, GetBookResponse> pageDtoMaker;
 
@@ -36,9 +34,8 @@ public class BookServiceImpl implements BookService {
     private final ImageRepository imageRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, AuthFacade authFacade, UserRepository userRepository, PageDtoMaker<Book, GetBookResponse> pageDtoMaker, ImageUtils imageUtils, ImageRepository imageRepository, PageDtoMaker<User, GetUserResponse> pageDtoMakerUser) {
+    public BookServiceImpl(BookRepository bookRepository,UserRepository userRepository, PageDtoMaker<Book, GetBookResponse> pageDtoMaker, ImageUtils imageUtils, ImageRepository imageRepository, PageDtoMaker<User, GetUserResponse> pageDtoMakerUser) {
         this.bookRepository = bookRepository;
-        this.authFacade = authFacade;
         this.userRepository = userRepository;
         this.pageDtoMaker = pageDtoMaker;
         this.imageUtils = imageUtils;
@@ -48,10 +45,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public int create(CreateBookRequest request) throws IOException {
-        /*var username = authFacade.getAuth().getName();
-        var user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        if (user.getRole().getName().equals("default"))
-            throw new AccessDeniedException("Access Denied");*/
         var file = request.getImage();
         var image = new Image(file.getOriginalFilename(), file.getContentType(), imageUtils.compress(file.getBytes()));
         var post = new Book(image, request.getTitle(), request.getAuthor(), request.getAnnotation());
@@ -110,29 +103,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void delete(int id) {
-        var username = authFacade.getAuth().getName();
-        var currentUser = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
         var book = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post not found"));
-
-        if (currentUser.getRole().getName().equals("default"))
-            throw new AccessDeniedException("Access Denied");
-
-        bookRepository.delete(book);
+           bookRepository.delete(book);
     }
 
-    /*@Override
-    public PageDto<GetUserResponse> getAllUser(int pageNumber, int pageSize, int bookId) {
-        *//*var pageRequest = PageRequest.of(pageNumber, pageSize);
-        Page<User> page = userRepository.findUsersByBookId(bookId, pageRequest);
-        return pageDtoMakerUser.makePageDto(page, this::mapUserToResponse);*//*
-    }*/
 
     public GetBookResponse mapToResponse(Book book) {
         return new GetBookResponse(book.getId(), book.getTitle(), book.getAuthor(), book.getAnnotation());
     }
 
-    public GetUserResponse mapUserToResponse(User user) {
-        return new GetUserResponse(user.getId(), user.getRole().getId(), user.getRole().getName(), user.getUsername(),user.getPassword(), user.getFirstName(), user.getLastName());
-    }
 }
 

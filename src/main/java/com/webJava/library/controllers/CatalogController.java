@@ -47,7 +47,7 @@ public class CatalogController {
     }
 
     @GetMapping(value = "/book/{id}")
-    public String getBook(@PathVariable int id, Model model, @CookieValue("AccessToken") String token) {
+    public String getBook(@PathVariable int id, Model model, @CookieValue(value = "AccessToken", required = false) String token) {
         if (token == null)
         {
             return "login";

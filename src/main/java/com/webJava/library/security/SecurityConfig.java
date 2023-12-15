@@ -21,9 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-/**
- * Конфигурация безопасности приложения.
- */
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -34,13 +32,6 @@ public class SecurityConfig {
         this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 
-    /**
-     * Настраивает цепочку фильтров безопасности.
-     *
-     * @param httpSecurity объект HttpSecurity для настройки безопасности HTTP
-     * @return объект SecurityFilterChain, представляющий цепочку фильтров безопасности
-     * @throws Exception если возникает ошибка при настройке цепочки фильтров
-     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -54,43 +45,24 @@ public class SecurityConfig {
                 .build();
     }
 
-    /**
-     * Возвращает экземпляр AuthenticationManager.
-     *
-     * @param config объект AuthenticationConfiguration для настройки AuthenticationManager
-     * @return объект AuthenticationManager для управления аутентификацией
-     * @throws Exception если возникает ошибка при создании AuthenticationManager
-     */
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    /**
-     * Создает и возвращает экземпляр PasswordEncoder.
-     *
-     * @return объект PasswordEncoder для шифрования паролей
-     */
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * Создает и возвращает экземпляр JwtAuthFilter.
-     *
-     * @return объект JwtAuthFilter для обработки аутентификации с использованием JWT
-     */
     @Bean
     public JwtAuthFilter getJwtAuthFilter() {
         return new JwtAuthFilter();
     }
 
-    /**
-     * Создает и возвращает объект CorsConfigurationSource.
-     *
-     * @return объект CorsConfigurationSource для настройки CORS-конфигурации
-     */
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();

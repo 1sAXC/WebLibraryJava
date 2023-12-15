@@ -28,6 +28,10 @@ public class NewsController {
 
     @GetMapping("/about")
     public String about(@CookieValue(value = "AccessToken", required = false) String token, Model model) {
+        if (token == null)
+        {
+            return "login";
+        }
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);
         model.addAttribute("title", "О нас");

@@ -1,5 +1,7 @@
 package com.webJava.library.controllers;
 
+import com.webJava.library.exceptions.EntityAlreadyExistsException;
+import com.webJava.library.exceptions.RegistEx;
 import com.webJava.library.models.User;
 import com.webJava.library.repository.UserRepository;
 import com.webJava.library.service.StatusService;
@@ -23,6 +25,8 @@ import com.webJava.library.service.AuthService;
 
 import java.io.IOException;
 import java.text.AttributedString;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Контроллер аутентификации и регистрации пользователей.
@@ -44,31 +48,30 @@ public class AuthController {
         this.statusService = statusService;
     }
 
-    /**
-     * Регистрирует нового пользователя.
-     *
-     * @param request объект запроса на регистрацию
-     * @return код ответа и идентификатор зарегистрированного пользователя
-     */
     @PostMapping("/regist")
     public String register(@Valid @ModelAttribute RegisterRequest request, HttpServletResponse response, Model model) throws IOException {
-        var register = authService.register(request);
-
-        var res = authService.login(new LoginRequest(request.getUsername(), request.getPassword()));
-        statusService.addVisitor();
-        var cookie = new Cookie("AccessToken", res.getAccessToken());
-        response.addCookie(cookie);
-        return profile(res.getAccessToken(), model);
-        //
-        // return ResponseEntity.ok().header("redirect", "/login").body(0);
+        try {
+            var register = authService.register(request);
+            var res = authService.login(new LoginRequest(request.getUsername(), request.getPassword()));
+            statusService.addVisitor();
+            var cookie = new Cookie("AccessToken", res.getAccessToken());
+            response.addCookie(cookie);
+            return profile(res.getAccessToken(), model);
+        }catch(RegistEx e)
+        {
+            if (e.getMessage().equals("Username is taken"))
+            {
+                model.addAttribute("error", "usernameTaken");
+            }
+            else
+            {
+                model.addAttribute("error", "weakPassword");
+            }
+            return "regist";
+        }
     }
 
-    /**
-     * Аутентифицирует пользователя.
-     *
-     * @param request объект запроса на аутентификацию
-     * @return код ответа и информацию об аутентифицированном пользователе
-     */
+
     @RequestMapping(value = "/login", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String login(@Valid LoginRequest request, HttpServletResponse response, Model model) {
         try{

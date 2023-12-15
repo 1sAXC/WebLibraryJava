@@ -11,6 +11,7 @@ import com.webJava.library.dto.user.ChangeUserPasswordRequest;
 import com.webJava.library.dto.user.GetUserResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface UserService {
@@ -24,18 +25,10 @@ public interface UserService {
     PageDto<GetUserResponse> getAll(int pageNumber, int pageSize);
     GetUserResponse update(int id, UpdateUserRequest request) throws IOException;
 
-    PageDto<GetUserResponse> getAllByRoleName(int pageNumber, int pageSize, String name);
-
-    GetUserResponse changePassword(ChangeUserPasswordRequest request);
-
-    GetUserResponse changeAvatar(MultipartFile avatar) throws IOException;
-
-    PageDto<GetBookResponse> getAllBooks(int pageNumber, int pageSize, int userId);
-    List<GetUserResponse> getAllUsersByBookId(int bookId);
-
     GetUserResponse getUserByName(String username);
-    GetUserResponse getUserById(int id);
 
     Image getAvatar(int userId);
     void delete(int id);
+
+  ArrayList<String> UserNames();
 }

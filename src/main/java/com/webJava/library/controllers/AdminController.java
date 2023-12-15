@@ -33,7 +33,11 @@ public class AdminController {
         this.jwt = jwt;
     }
     @GetMapping("/book-upload")
-    public String home(@CookieValue("AccessToken") String token) {
+    public String home(@CookieValue(value = "AccessToken", required = false) String token) {
+        if (token == null)
+        {
+            return "login";
+        }
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);
         if (user.getRoleId() <2)
@@ -44,7 +48,11 @@ public class AdminController {
     }
 
     @GetMapping("/post-upload")
-    public String home2(@CookieValue("AccessToken") String token) {
+    public String home2(@CookieValue(value = "AccessToken", required = false) String token) {
+        if (token == null)
+        {
+            return "login";
+        }
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);
         if (user.getRoleId() <2)
@@ -82,7 +90,11 @@ public class AdminController {
     }
 
     @GetMapping("/{id}/post-update")
-    public String getUpdatePost(HttpServletResponse response, Model model, @PathVariable int id, @CookieValue("AccessToken") String token) throws IOException {
+    public String getUpdatePost(HttpServletResponse response, Model model, @PathVariable int id, @CookieValue(value = "AccessToken", required = false) String token) throws IOException {
+        if (token == null)
+        {
+            return "login";
+        }
         model.addAttribute("post", postService.getById(id));
         var username = jwt.getUsernameFromJwt(token);
         var user = userService.getUserByName(username);

@@ -1,6 +1,8 @@
 package com.webJava.library.service.impl;
 
 import com.webJava.library.dto.user.CreateUserRequest;
+import com.webJava.library.exceptions.RegistEx;
+import com.webJava.library.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +19,6 @@ import com.webJava.library.models.Image;
 import com.webJava.library.models.User;
 import com.webJava.library.repository.RoleRepository;
 import com.webJava.library.repository.UserRepository;
-import com.webJava.library.helpers.AuthFacade;
 import com.webJava.library.security.JwtGenerator;
 import com.webJava.library.service.AuthService;
 
@@ -26,21 +27,20 @@ import java.io.IOException;
 @Service
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final AuthenticationManager authenticationManager;
-    private final AuthFacade authFacade;
     private final JwtGenerator jwtGenerator;
     private final ImageUtils imageUtils;
 
     @Autowired
     public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository,
-                           AuthenticationManager authenticationManager, AuthFacade authFacade, JwtGenerator jwtGenerator, ImageUtils imageUtils) {
+                           AuthenticationManager authenticationManager, JwtGenerator jwtGenerator, ImageUtils imageUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.authenticationManager = authenticationManager;
-        this.authFacade = authFacade;
         this.jwtGenerator = jwtGenerator;
         this.imageUtils = imageUtils;
     }
@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public int register(RegisterRequest request) throws IOException {
         if (userRepository.existsByUsername(request.getUsername()))
-            throw new EntityAlreadyExistsException("Username is taken");
+            throw new RegistEx("Username is taken");
 
         var role = roleRepository.findByName("default").orElseThrow(() -> new EntityNotFoundException("Role not found"));
         var avatar = request.getAvatar();
@@ -87,7 +87,6 @@ public class AuthServiceImpl implements AuthService {
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
-        authFacade.setAuth(auth);
         var token = jwtGenerator.generateToken(auth);
 
         return new LoginResponse(token);

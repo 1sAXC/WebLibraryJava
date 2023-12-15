@@ -8,10 +8,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class RegisterRequest {
-    @Size(min = 3, max = 30)
+    @Size(min = 0, max = 300)
     private String username;
 
-    @Pattern(regexp = "(?=\\w*[a-z])(?=\\w*[A-Z])(?=\\w*[0-9])\\w{8,}")
+    @Pattern(regexp = "^.*$")
     private String password;
 
     @NotBlank

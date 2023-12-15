@@ -18,7 +18,6 @@ public interface PostService {
     byte[] getPostImage(int postId);
 
     GetPostResponse update(int id, UpdatePostRequest request);
-    GetPostResponse changeImage(int id, MultipartFile image) throws IOException;
 
     void delete(int id);
 }

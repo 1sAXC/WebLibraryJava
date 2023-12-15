@@ -19,7 +19,7 @@ public class TimeService {
         this.messagingTemplate = messagingTemplate;
     }
 
-    @Scheduled(fixedDelay = 1000) // Отправляет обновление каждую секунду
+    @Scheduled(fixedDelay = 1000)
     public void sendTimeUpdates() {
         LocalDateTime currentTime = LocalDateTime.now();
         messagingTemplate.convertAndSend("/topic/current-time", currentTime.toString());
